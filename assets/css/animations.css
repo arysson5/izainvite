@@ -1,0 +1,234 @@
+/* ============================================
+   ANIMAÇÕES E EFEITOS
+   Estilo Victoria's Secret - Elegante e Suave
+   ============================================ */
+
+/* Animação de brilho elegante */
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+/* Animação de clique simples para smartphones - SOBRE A CARTA - Cinza esmaecido e evidente */
+.click-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: var(--z-hint);
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.click-circle {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(150, 150, 150, 0.7);
+  border-radius: 50%;
+  position: relative;
+  animation: pulseClick 2s infinite ease-in-out;
+  box-shadow: 0 0 20px rgba(150, 150, 150, 0.5);
+}
+
+.click-circle::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(150, 150, 150, 0.5);
+  border-radius: 50%;
+  animation: pulseClickOuter 2s infinite ease-in-out;
+  box-shadow: 0 0 30px rgba(150, 150, 150, 0.4);
+}
+
+@keyframes pulseClick {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.6;
+  }
+}
+
+@keyframes pulseClickOuter {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Logo para expansão */
+.logo-expansion {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-expansion img {
+  max-width: 250px;
+  max-height: 250px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 50px rgba(255, 192, 203, 0.7))
+    drop-shadow(0 0 80px rgba(255, 105, 180, 0.5)) brightness(1.1);
+  will-change: transform, opacity, filter;
+}
+
+/* Efeito de brilho para transição - Apenas rosa elegante (sem amarelo) */
+.brilho-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 192, 203, 0.8) 0%,
+    rgba(255, 105, 180, 0.7) 25%,
+    rgba(255, 20, 147, 0.5) 50%,
+    rgba(255, 192, 203, 0.3) 75%,
+    transparent 100%
+  );
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+  filter: blur(0px);
+}
+
+/* Overlay para esmaecer background */
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+  transition: opacity 0.5s ease-out;
+}
+
+/* Efeitos de partículas */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: particleFloat 8s infinite ease-in-out;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) translateX(0) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(20px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Animação de fade in suave */
+@keyframes fadeInElegant {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animação de scale suave */
+@keyframes scaleElegant {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+/* Vídeo em tela cheia */
+.video-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 300;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  background: #000;
+}
+
+.video-fullscreen.is-visible {
+  pointer-events: auto;
+}
+
+.video-fullscreen video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay para escurecer a tela ao fim do vídeo */
+.video-fade-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}

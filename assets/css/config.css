@@ -1,0 +1,91 @@
+/* ============================================
+   CONFIGURAÇÕES E VARIÁVEIS CSS
+   Estilo Victoria's Secret - Elegante e Luxuoso
+   ============================================ */
+
+:root {
+  /* Cores principais - Paleta elegante */
+  --cor-preto: #0a0508;
+  --cor-roxo-escuro: #1a0f1a;
+  --cor-roxo: #2d1b2e;
+  --cor-rosa-antigo: #c77d7d;
+  --cor-dourado: #ffd700;
+  --cor-rosa-claro: #ffc0cb;
+  --cor-rosa-queimado: #c77d7d;
+  --cor-rosa-vibrante: #ff69b4;
+
+  /* Tamanhos da carta - Ocupando toda a tela */
+  --carta-width-mobile: 100vw;
+  --carta-width-tablet: 100vw;
+  --carta-width-desktop: 100vw;
+  --carta-max-width: 100vw;
+  --carta-max-height: 100vh;
+  --carta-aspect-ratio: auto;
+
+  /* Escalas */
+  --carta-scale-initial: 0;
+  --carta-scale-final: 1;
+  --carta-scale-hover: 1.02;
+
+  /* Sombras elegantes */
+  --carta-shadow-color: rgba(0, 0, 0, 0.6);
+  --carta-shadow-blur: 80px;
+  --carta-shadow-spread: 30px;
+  --carta-shadow-inner: 0 0 40px rgba(255, 215, 0, 0.2);
+
+  /* Background */
+  --bg-gradient-color1: #0a0508;
+  --bg-gradient-color2: #1a0f1a;
+  --bg-gradient-color3: #2d1b2e;
+  --bg-gradient-color4: #1a0f1a;
+  --bg-gradient-color5: #0a0508;
+  --bg-gradient-angle: 180deg;
+
+  /* Animações */
+  --anim-entrada-duration: 3.5s;
+  --anim-pulsacao-duration: 4s;
+  --anim-bokeh-duration: 25s;
+  --anim-shine-duration: 4s;
+  --anim-logo-duration: 2s;
+
+  /* Z-index layers */
+  --z-background: 1;
+  --z-particles: 2;
+  --z-carta-background: 3;
+  --z-carta: 4;
+  --z-logo: 5;
+  --z-brilho: 6;
+  --z-hint: 10;
+
+  /* Tipografia elegante */
+  --font-family-primary: "Georgia", "Times New Roman", serif;
+  --font-size-hint-mobile: 13px;
+  --font-size-hint-desktop: 15px;
+  --letter-spacing-hint: 3px;
+}
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  font-family: var(--font-family-primary);
+  background: #000;
+}
+
+/* Smooth scrolling e performance */
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

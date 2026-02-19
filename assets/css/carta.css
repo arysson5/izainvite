@@ -1,0 +1,226 @@
+/* ============================================
+   ESTILOS DA CARTA/CONVITE
+   Estilo Victoria's Secret - Elegante
+   Com alta qualidade de imagem
+   ============================================ */
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-carta);
+  perspective: 3000px;
+  perspective-origin: center center;
+  overflow: hidden;
+}
+
+.carta {
+  position: relative;
+  width: 90vw;
+  height: auto;
+  max-width: 90vw;
+  max-height: 90vh;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateZ(-200px);
+  transition: transform 0.1s ease-out;
+}
+
+/* Camadas modulares - Montagem elegante */
+.carta-layer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+}
+
+/* Background da carta - REMOVIDO (já temos background real) */
+.carta-background {
+  display: none;
+}
+
+/* Carta principal com alta qualidade */
+.carta-main {
+  z-index: var(--z-carta);
+  opacity: 0;
+  width: 90vw;
+  height: auto;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%) translateZ(150px);
+}
+
+.carta-main img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+
+  /* Melhorias de qualidade de imagem - ALTA QUALIDADE */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: bicubic;
+
+  /* Filtros para melhorar qualidade visual e nitidez */
+  /* Em mobile, reduzir filtros para melhor performance */
+  filter: drop-shadow(0 25px 70px rgba(0, 0, 0, 0.5)) contrast(1.08)
+    brightness(1.03) saturate(1.12);
+}
+
+/* Otimizações para mobile - reduzir filtros pesados */
+@media (max-width: 768px) {
+  .carta-main img {
+    /* Filtros simplificados em mobile para melhor performance */
+    filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.4));
+    /* Remover contrast, brightness e saturate em mobile para melhor performance */
+  }
+}
+
+.carta-main img {
+  /* Forçar renderização de alta qualidade */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+
+  /* Renderização de alta qualidade */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+
+  /* Suavização de bordas */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Transições suaves */
+  transition: filter 0.3s ease-out, transform 0.3s ease-out;
+
+  /* Forçar renderização em alta qualidade */
+  transform: translateZ(0);
+  will-change: transform, filter;
+}
+
+/* Efeito de brilho elegante na carta */
+.carta::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 215, 0, 0.12) 50%,
+    transparent 70%
+  );
+  transform: rotate(45deg);
+  animation: shine var(--anim-shine-duration) infinite;
+  pointer-events: none;
+  z-index: var(--z-brilho);
+  opacity: 0.4;
+}
+
+/* Efeito de luz ambiente */
+.carta::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  max-width: 90vw;
+  max-height: 90vh;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 215, 0, 0.08) 0%,
+    rgba(255, 192, 203, 0.04) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: var(--z-brilho);
+  opacity: 0;
+  animation: ambientGlow var(--anim-pulsacao-duration) infinite ease-in-out;
+}
+
+@keyframes ambientGlow {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+/* Hover elegante */
+.carta:hover .carta-main img {
+  filter: drop-shadow(0 30px 80px rgba(0, 0, 0, 0.6)) contrast(1.08)
+    brightness(1.05) saturate(1.15);
+  transform: translateZ(0) scale(1.01);
+}
+
+/* Responsividade */
+@media (min-width: 768px) {
+  .carta {
+    width: 85vw;
+    max-width: 85vw;
+  }
+
+  .carta-main {
+    width: 85vw;
+    max-width: 85vw;
+  }
+}
+
+@media (min-width: 1024px) {
+  .carta {
+    width: 80vw;
+    max-width: 80vw;
+  }
+
+  .carta-main {
+    width: 80vw;
+    max-width: 80vw;
+  }
+
+  .carta-main img {
+    /* Qualidade ainda melhor em desktop */
+    filter: drop-shadow(0 30px 90px rgba(0, 0, 0, 0.6)) contrast(1.08)
+      brightness(1.03) saturate(1.12);
+  }
+}
+
+@media (max-width: 480px) {
+  .carta {
+    width: 95vw;
+    max-width: 95vw;
+  }
+
+  .carta-main {
+    width: 95vw;
+    max-width: 95vw;
+  }
+}

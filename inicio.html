@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Convite Especial</title>
+
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <!-- CSS Modular -->
+    <link rel="stylesheet" href="assets/css/config.css" />
+    <link rel="stylesheet" href="assets/css/background.css" />
+    <link rel="stylesheet" href="assets/css/carta.css" />
+    <link rel="stylesheet" href="assets/css/animations.css" />
+  </head>
+  <body>
+    <!-- Background Layer - Imagem real do background -->
+    <div class="background" id="background">
+      <!-- Bokeh elements gerados dinamicamente via JavaScript -->
+    </div>
+
+    <!-- Partículas Elegantes -->
+    <!-- Será criado dinamicamente via JavaScript -->
+
+    <!-- Main Container -->
+    <div class="container">
+      <!-- Carta com imagem de alta qualidade -->
+      <div class="carta" id="carta">
+        <!-- Carta principal (já contém o logo) -->
+        <div class="carta-layer carta-main" id="cartaMain">
+          <img
+            src="assets/images/carta/Adobe Express - file.png"
+            alt="Carta do convite"
+            id="cartaImage"
+            loading="eager"
+          />
+        </div>
+      </div>
+
+      <!-- Animação de clique simples para smartphones -->
+      <div class="click-indicator" id="clickIndicator">
+        <div class="click-circle"></div>
+      </div>
+
+      <!-- Logo para animação de expansão (oculto inicialmente) -->
+      <div class="logo-expansion" id="logoExpansion">
+        <img src="assets/images/logo/Untitled.png" alt="Logo" id="logoImage" />
+      </div>
+
+      <!-- Efeito de brilho para transição -->
+      <div class="brilho-transition" id="brilhoTransition"></div>
+    </div>
+
+    <!-- Overlay para esmaecer background durante animação do logo -->
+    <div class="background-overlay" id="backgroundOverlay"></div>
+
+    <!-- Vídeo em tela cheia (após animação do logo) -->
+    <div class="video-fullscreen" id="videoFullscreen">
+      <video
+        id="conviteVideo"
+        src="assets/videos/Video_cinematografico_em_202602191542_h1rro.mp4"
+        playsinline
+        muted
+      ></video>
+      <div class="video-fade-overlay" id="videoFadeOverlay"></div>
+    </div>
+
+    <!-- JavaScript Modular -->
+    <!-- IMPORTANTE: Ordem de carregamento -->
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/background.js"></script>
+    <script src="assets/js/particles.js"></script>
+    <script src="assets/js/carta.js"></script>
+    <script src="assets/js/animations.js"></script>
+  </body>
+</html>

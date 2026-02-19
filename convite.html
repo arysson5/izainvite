@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Convite</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/config.css" />
+    <link rel="stylesheet" href="assets/css/background.css" />
+    <link rel="stylesheet" href="assets/css/convite.css" />
+  </head>
+  <body class="page-convite">
+    <!-- Apagão inicial: tela preta ao carregar, depois abre -->
+    <div class="convite-apagao" id="conviteApagao"></div>
+
+    <div class="background" id="background">
+      <!-- Bokeh gerado via background.js -->
+    </div>
+
+    <div class="convite-backdrop"></div>
+    <div class="convite-brilho" aria-hidden="true"></div>
+    <div class="convite-logo-corner convite-logo-corner-tl" aria-hidden="true">
+      <img src="assets/images/logo/Untitled.png" alt="" />
+    </div>
+    <div class="convite-logo-corner convite-logo-corner-br" aria-hidden="true">
+      <img src="assets/images/logo/Untitled.png" alt="" />
+    </div>
+
+    <main class="convite-page">
+      <div class="convite-top">
+        <!-- Card unificado: contorno animado em volta de todo o modal -->
+        <div class="convite-unified" id="conviteUnified">
+          <div class="convite-unified-frame" aria-hidden="true">
+            <svg class="convite-unified-svg" viewBox="0 0 320 1400" preserveAspectRatio="none">
+              <path
+                id="conviteUnifiedPath"
+                class="convite-unified-path"
+                d="M 14,0 H 306 Q 320,0 320,14 V 1386 Q 320,1400 306,1400 H 14 Q 0,1400 0,1386 V 14 Q 0,0 14,0 Z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.2"
+              />
+            </svg>
+          </div>
+          <div class="convite-unified-inner">
+          <div class="convite-modal" id="conviteModal">
+            <div class="convite-modal-inner">
+              <div class="convite-modal-content">
+                <img src="assets/images/logo/Untitled.png" alt="" class="convite-logo convite-logo-top" />
+                <h1 class="convite-titulo">Você está convidado</h1>
+                <div class="convite-divider"></div>
+                <p class="convite-mensagem">
+                  É com grande alegria que convidamos você para celebrar conosco este momento especial.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="convite-scroll-content" id="conviteScrollContent">
+        <section class="convite-block convite-block-data" id="conviteSectionData">
+          <span class="convite-block-label">Data e hora</span>
+          <p class="convite-block-value">09 de maio de 2026 · 19h30</p>
+        </section>
+
+        <section class="convite-block convite-block-local" id="conviteSectionLocal">
+          <span class="convite-block-label">Local</span>
+          <p class="convite-block-venue">Espaço Melvalen</p>
+          <div class="convite-map-wrap">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3655.4409569575755!2d-46.762012299999995!3d-23.624374300000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce55bda67ca4ab%3A0xa147a8ae5d6a693a!2sESPA%C3%87O%20MELVALEN!5e0!3m2!1spt-BR!2sbr!4v1771532314589!5m2!1spt-BR!2sbr"
+              width="100%"
+              height="280"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Local do evento - Espaço Melvalen"
+            ></iframe>
+          </div>
+          <a href="https://maps.app.goo.gl/GFomzn1VnYncNM1y8?g_st=iw" target="_blank" rel="noopener noreferrer" class="convite-link-maps-block">Abrir no Google Maps</a>
+        </section>
+
+        <section class="convite-block convite-block-countdown" id="conviteSectionCountdown">
+          <span class="convite-block-label">Contagem regressiva</span>
+          <div class="convite-countdown" id="conviteCountdown">
+            <div class="convite-countdown-item">
+              <span class="convite-countdown-num" id="countDays">0</span>
+              <span class="convite-countdown-unit">dias</span>
+            </div>
+            <div class="convite-countdown-item">
+              <span class="convite-countdown-num" id="countHours">0</span>
+              <span class="convite-countdown-unit">horas</span>
+            </div>
+            <div class="convite-countdown-item">
+              <span class="convite-countdown-num" id="countMinutes">0</span>
+              <span class="convite-countdown-unit">min</span>
+            </div>
+            <div class="convite-countdown-item">
+              <span class="convite-countdown-num" id="countSeconds">0</span>
+              <span class="convite-countdown-unit">seg</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Botões no fim do modal -->
+        <div class="convite-block convite-block-buttons" id="conviteSectionButtons">
+          <a href="#" class="convite-btn convite-btn-presente" id="btnSugestaoPresente">
+            <span class="convite-btn-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><rect x="2" y="7" width="20" height="5" rx="1"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+            </span>
+            <span class="convite-btn-label">Sugestão de presente</span>
+            <span class="convite-btn-desc">Veja nossa lista de preferências</span>
+          </a>
+          <a href="#" class="convite-btn convite-btn-pix" id="btnPix">
+            <span class="convite-btn-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 9v6"/><path d="M9 12h6"/></svg>
+            </span>
+            <span class="convite-btn-label">PIX</span>
+            <span class="convite-btn-desc">Presenteie com uma contribuição</span>
+          </a>
+        </div>
+        <div class="convite-footer-logo">
+          <img src="assets/images/logo/Untitled.png" alt="" class="convite-logo convite-logo-footer" />
+        </div>
+      </div>
+          </div>
+      </div>
+      </div>
+    </main>
+
+    <!-- Modal: Sugestões de presentes -->
+    <div class="convite-overlay" id="overlaySugestoes" aria-hidden="true">
+      <div class="convite-modal-popup" id="modalSugestoes">
+        <button type="button" class="convite-modal-close" id="closeSugestoes" aria-label="Fechar">&times;</button>
+        <h3 class="convite-modal-popup-title">Sugestões de presentes</h3>
+        <div class="convite-modal-popup-body">
+          <p class="convite-list-category">Roupas</p>
+          <ul class="convite-list">
+            <li>Blusa: tam <strong>P</strong></li>
+            <li>Calça / short: tam <strong>34</strong></li>
+            <li>Vestido: <strong>P</strong></li>
+            <li>Sapato: <strong>35</strong></li>
+          </ul>
+          <p class="convite-list-category">Acessórios</p>
+          <ul class="convite-list">
+            <li>Dourados</li>
+          </ul>
+          <p class="convite-list-category">Outros</p>
+          <ul class="convite-list">
+            <li>Perfumes e cremes doces</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: PIX -->
+    <div class="convite-overlay" id="overlayPix" aria-hidden="true">
+      <div class="convite-modal-popup" id="modalPix">
+        <button type="button" class="convite-modal-close" id="closePix" aria-label="Fechar">&times;</button>
+        <h3 class="convite-modal-popup-title">Chave PIX</h3>
+        <div class="convite-modal-popup-body">
+          <p class="convite-pix-desc">Presenteie com uma contribuição via PIX:</p>
+          <p class="convite-pix-key" id="pixKey">553.655.978-85</p>
+          <button type="button" class="convite-btn-copy" id="btnCopyPix">Copiar chave</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/background.js"></script>
+    <script src="assets/js/convite.js"></script>
+  </body>
+</html>
