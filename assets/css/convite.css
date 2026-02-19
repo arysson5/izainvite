@@ -677,6 +677,16 @@ body.page-convite {
   opacity: 0.65;
 }
 
+.convite-footer-sutil {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: rgba(100, 80, 95, 0.55);
+  margin-top: 0.9rem;
+  text-transform: lowercase;
+}
+
 .convite-logo-corner {
   position: fixed;
   z-index: 8;

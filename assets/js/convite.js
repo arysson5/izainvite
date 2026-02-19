@@ -48,6 +48,7 @@ function initScrollTrigger() {
   const sections = [
     "#conviteSectionData",
     "#conviteSectionLocal",
+    "#conviteSectionTraje",
     "#conviteSectionCountdown",
     "#conviteSectionButtons",
   ];

@@ -86,12 +86,32 @@
     brightness(1.03) saturate(1.12);
 }
 
-/* Otimizações para mobile - reduzir filtros pesados */
+/* Otimizações para mobile - mesmo tipo de tela inicial (carta centralizada e proporcional) */
 @media (max-width: 768px) {
+  .container {
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .carta {
+    width: 88vw;
+    max-width: 88vw;
+    max-height: 85vh;
+    transform: translateZ(-200px);
+  }
+
+  .carta-main {
+    width: 88vw;
+    max-width: 88vw;
+    max-height: 85vh;
+  }
+
   .carta-main img {
+    max-height: 85vh;
+    object-fit: contain;
     /* Filtros simplificados em mobile para melhor performance */
     filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.4));
-    /* Remover contrast, brightness e saturate em mobile para melhor performance */
   }
 }
 
@@ -215,12 +235,18 @@
 
 @media (max-width: 480px) {
   .carta {
-    width: 95vw;
-    max-width: 95vw;
+    width: 92vw;
+    max-width: 92vw;
+    max-height: 82vh;
   }
 
   .carta-main {
-    width: 95vw;
-    max-width: 95vw;
+    width: 92vw;
+    max-width: 92vw;
+    max-height: 82vh;
+  }
+
+  .carta-main img {
+    max-height: 82vh;
   }
 }

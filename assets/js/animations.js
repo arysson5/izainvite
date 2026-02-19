@@ -61,12 +61,17 @@ class AnimationManager {
   }
 
   setupInitialStates() {
+    // Valores proporcionais em mobile para o mesmo tipo de tela inicial
+    const isSmall = this.isMobile;
+    const cartaY = isSmall ? 20 : 40;
+    const cartaScale = isSmall ? 0.88 : 0.85;
+
     // Carta principal
     if (this.cartaLayer) {
       gsap.set(this.cartaLayer, {
         opacity: 0,
-        scale: 0.85,
-        y: 40,
+        scale: cartaScale,
+        y: cartaY,
         z: -800,
         rotationY: 0,
         rotationX: 0,
@@ -76,7 +81,7 @@ class AnimationManager {
     // Carta container
     if (this.cartaElement) {
       gsap.set(this.cartaElement, {
-        scale: 0.8,
+        scale: isSmall ? 0.88 : 0.8,
         rotationY: 0,
         rotationX: 0,
         z: -300,
@@ -92,7 +97,7 @@ class AnimationManager {
       });
     }
 
-    // Logo de expansão (oculto)
+    // Logo de expansão (oculto) - mesma base para mobile/desktop
     if (this.logoExpansion) {
       gsap.set(this.logoExpansion, {
         opacity: 0,
@@ -520,6 +525,9 @@ class AnimationManager {
       "-=0.3"
     );
 
+    // Escala final do logo: menor em mobile para respeitar o mesmo tipo de tela (não estourar)
+    const logoScaleEnd = this.isMobile ? 2.8 : 4;
+
     // 4. Logo aparece com rotação e movimento elegante
     openTimeline
       .to(
@@ -540,7 +548,7 @@ class AnimationManager {
         this.logoExpansion,
         {
           duration: 1.5,
-          scale: 4,
+          scale: logoScaleEnd,
           z: 600,
           rotationY: 0,
           rotationX: 0,
@@ -577,7 +585,7 @@ class AnimationManager {
         {
           duration: 0.6,
           opacity: 0,
-          scale: 5,
+          scale: this.isMobile ? 3.2 : 5,
           z: 1000,
           rotationY: 10,
           ease: "power2.in",
