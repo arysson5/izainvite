@@ -3,6 +3,60 @@
    Estilo Victoria's Secret - Elegante e Suave
    ============================================ */
 
+/* Texto XV da Iza na tela inicial */
+.index-xv-text {
+  position: fixed;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-hint);
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 192, 203, 0.88);
+  text-shadow: 0 0 24px rgba(255, 105, 180, 0.25);
+  pointer-events: none;
+  opacity: 0;
+  animation: indexXvFadeIn 1.2s ease-out 1.8s forwards;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.index-xv-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 182, 193, 0.95);
+}
+
+.index-xv-icon svg {
+  width: 0.9em;
+  height: 0.9em;
+  flex-shrink: 0;
+}
+
+@keyframes indexXvFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .index-xv-text {
+    top: 1rem;
+    letter-spacing: 0.15em;
+    font-size: clamp(0.75rem, 4vw, 0.9rem);
+  }
+}
+
 /* Animação de brilho elegante */
 @keyframes shine {
   0% {

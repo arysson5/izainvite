@@ -239,6 +239,45 @@ body.page-convite {
   transform: translateY(0);
 }
 
+/* Subtítulo: XV da Iza com ícone */
+.convite-modal .convite-subtitulo {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1rem, 2.8vw, 1.2rem);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(140, 90, 120, 0.95);
+  margin: 0 0 0.6rem;
+  font-style: normal;
+  line-height: 1.3;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.25s,
+    transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.convite-modal .convite-subtitulo-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(180, 120, 150, 0.9);
+}
+
+.convite-modal .convite-subtitulo-icon svg {
+  width: 0.95em;
+  height: 0.95em;
+  flex-shrink: 0;
+}
+
+.convite-modal.is-content-visible .convite-subtitulo {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Tipografia elegante - Cormorant Garamond */
 .convite-modal .convite-titulo {
   font-family: "Cormorant Garamond", Georgia, serif;
