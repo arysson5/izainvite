@@ -232,25 +232,66 @@ function initBgMusic() {
 
   audio.volume = 0.45;
 
+  const toggleBtn = document.getElementById("audioToggle");
+
+  const updateToggleState = () => {
+    if (!toggleBtn) return;
+    if (audio.muted || audio.paused) {
+      toggleBtn.classList.add("is-muted");
+      toggleBtn.setAttribute("aria-label", "Ativar música");
+    } else {
+      toggleBtn.classList.remove("is-muted");
+      toggleBtn.setAttribute("aria-label", "Mutar música");
+    }
+  };
+
   const tryPlay = () => {
     audio
       .play()
       .then(() => {})
-      .catch(() => {});
+      .catch(() => {
+        // Alguns navegadores móveis podem bloquear autoplay com som;
+        // ainda assim tentamos novamente quando o usuário voltar para a aba.
+      });
   };
 
-  // Tenta tocar assim que a página estiver pronta
+  const pauseAudio = () => {
+    if (!audio.paused) {
+      audio.pause();
+    }
+  };
+
+  // Tenta tocar assim que a página estiver pronta (autoplay-friendly em muitos navegadores)
   tryPlay();
+  updateToggleState();
 
-  // Garante início da música na primeira interação, caso o autoplay com som seja bloqueado
-  const startOnInteraction = () => {
-    tryPlay();
-    document.removeEventListener("click", startOnInteraction);
-    document.removeEventListener("touchstart", startOnInteraction);
+  // Pausa quando o usuário sai do navegador/aba e tenta retomar ao voltar
+  const handleVisibility = () => {
+    if (document.hidden) {
+      pauseAudio();
+    } else {
+      tryPlay();
+      updateToggleState();
+    }
   };
 
-  document.addEventListener("click", startOnInteraction, { once: true });
-  document.addEventListener("touchstart", startOnInteraction, { once: true });
+  document.addEventListener("visibilitychange", handleVisibility);
+  window.addEventListener("pagehide", pauseAudio);
+  window.addEventListener("blur", pauseAudio);
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      // Alterna mute; se desmutar, garante que está tocando
+      const willBeMuted = !audio.muted;
+      audio.muted = willBeMuted;
+      if (!willBeMuted) {
+        tryPlay();
+      } else {
+        pauseAudio();
+      }
+      updateToggleState();
+    });
+  }
 }
 
 if (document.readyState === "loading") {
