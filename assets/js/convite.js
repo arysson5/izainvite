@@ -233,14 +233,17 @@ function initBgMusic() {
   if (!audio) return;
 
   audio.volume = 0.45;
+  let hasStarted = false;
 
   const tryPlay = () => {
     audio
       .play()
-      .then(() => {})
+      .then(() => {
+        hasStarted = true;
+      })
       .catch(() => {
         // Alguns navegadores móveis podem bloquear autoplay com som;
-        // ainda assim tentamos novamente quando o usuário voltar para a aba.
+        // só vamos insistir novamente após interação/retorno à aba.
       });
   };
 
@@ -250,14 +253,24 @@ function initBgMusic() {
     }
   };
 
-  // Tenta tocar assim que a página estiver pronta (autoplay-friendly em muitos navegadores)
-  tryPlay();
+  // NÃO forçamos autoplay puro para evitar bloquear em mobile.
+  // Música inicia garantidamente no primeiro toque/clique:
+  const startOnFirstInteraction = () => {
+    tryPlay();
+    document.removeEventListener("click", startOnFirstInteraction);
+    document.removeEventListener("touchstart", startOnFirstInteraction);
+  };
+
+  document.addEventListener("click", startOnFirstInteraction, { once: true });
+  document.addEventListener("touchstart", startOnFirstInteraction, {
+    once: true,
+  });
 
   // Pausa quando o usuário sai do navegador/aba e tenta retomar ao voltar
   const handleVisibility = () => {
     if (document.hidden) {
       pauseAudio();
-    } else {
+    } else if (hasStarted) {
       tryPlay();
     }
   };
