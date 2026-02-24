@@ -25,7 +25,7 @@ class AnimationManager {
     // Detectar mobile para otimizações de performance
     this.isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
+        navigator.userAgent,
       ) ||
       window.innerWidth <= 768 ||
       "ontouchstart" in window;
@@ -160,7 +160,7 @@ class AnimationManager {
           ease: "power1.out",
           force3D: true,
         },
-        `-=${this.config.entrada.stagger}`
+        `-=${this.config.entrada.stagger}`,
       );
 
     // 3. Pequena animação de flutuação (apenas desktop)
@@ -174,7 +174,7 @@ class AnimationManager {
             ease: "sine.inOut",
             force3D: true,
           },
-          "-=2"
+          "-=2",
         )
         .to(this.cartaElement, {
           duration: floatDuration,
@@ -194,7 +194,7 @@ class AnimationManager {
         ease: "power1.out",
         force3D: true,
       },
-      this.isMobile ? "+=0.5" : "+=0.8" // Delay menor em mobile
+      this.isMobile ? "+=0.5" : "+=0.8", // Delay menor em mobile
     );
   }
 
@@ -273,7 +273,7 @@ class AnimationManager {
             animate();
           }
         },
-        { passive: true }
+        { passive: true },
       );
 
       // Mouse leave - Resetar suavemente
@@ -293,7 +293,7 @@ class AnimationManager {
             });
           }
         },
-        { passive: true }
+        { passive: true },
       );
     }
 
@@ -476,7 +476,7 @@ class AnimationManager {
         }
         lastTouchEnd = now;
       },
-      false
+      false,
     );
 
     // Clique para abrir
@@ -507,7 +507,7 @@ class AnimationManager {
         opacity: 0.7,
         ease: "power2.out",
       },
-      "-=0.1"
+      "-=0.1",
     );
 
     // 3. Carta se afasta suavemente com rotação elegante
@@ -522,7 +522,7 @@ class AnimationManager {
         rotationX: -10,
         ease: "power2.in",
       },
-      "-=0.3"
+      "-=0.3",
     );
 
     // Escala final do logo: menor em mobile para respeitar o mesmo tipo de tela (não estourar)
@@ -533,7 +533,7 @@ class AnimationManager {
       .to(
         this.logoExpansion,
         {
-          duration: 0.4,
+          duration: 0.35,
           opacity: 1,
           scale: 0.4,
           z: -800,
@@ -541,75 +541,79 @@ class AnimationManager {
           rotationX: 10,
           ease: "power3.out",
         },
-        "-=0.5"
+        "-=0.5",
       )
       // Logo se aproxima com rotação suave e expansão
       .to(
         this.logoExpansion,
         {
-          duration: 1.5,
+          duration: 1.0,
           scale: logoScaleEnd,
           z: 600,
           rotationY: 0,
           rotationX: 0,
           ease: "power2.inOut",
         },
-        "-=0.2"
+        "-=0.2",
       )
+      // Iniciar o vídeo logo após a movimentação principal da logo
+      .call(() => {
+        this.iniciarVideo();
+      })
       // Brilho elegante no logo durante aproximação - apenas rosa (sem amarelo)
       .to(
         this.logoImage,
         {
-          duration: 1.5,
+          duration: 1.0,
           filter:
             "brightness(1.6) drop-shadow(0 0 100px rgba(255, 192, 203, 0.8)) drop-shadow(0 0 150px rgba(255, 105, 180, 0.6))",
           ease: "power2.inOut",
         },
-        "-=1.5"
+        "-=1.5",
       );
 
-    // 5. Transição com brilho INTENSO
+    // 5. Transição com brilho INTENSO (mais curto, sobreposto ao início do vídeo)
     openTimeline
       .to(
         this.brilhoTransition,
         {
-          duration: 0.6,
+          duration: 0.4,
           opacity: 1,
           scale: 1.8,
           ease: "power2.inOut",
         },
-        "-=0.4"
+        "-=0.4",
       )
       .to(
         this.logoExpansion,
         {
-          duration: 0.6,
+          duration: 0.5,
           opacity: 0,
           scale: this.isMobile ? 3.2 : 5,
           z: 1000,
           rotationY: 10,
           ease: "power2.in",
         },
-        "-=0.3"
+        "-=0.3",
       )
       .to(
         this.brilhoTransition,
         {
-          duration: 2,
+          duration: 1.2,
           opacity: 0,
           scale: 2.5,
           ease: "power2.out",
         },
-        "-=0.2"
+        "-=0.2",
       )
       .to(
         this.backgroundOverlay,
         {
-          duration: 1,
+          duration: 0.6,
           opacity: 0,
           ease: "power2.out",
         },
-        "-=1.5"
+        "-=1.5",
       )
       .call(() => {
         this.iniciarVideo();
@@ -623,23 +627,37 @@ class AnimationManager {
     const background = this.backgroundElement;
 
     const video = this.conviteVideo;
+    // Garantir que o vídeo de abertura tenha som
+    video.muted = false;
+    video.volume = 1;
     const videoTimeline = gsap.timeline({
       onComplete: () => {
         this.videoFullscreen.classList.add("is-visible");
         video.play().catch(() => {});
-        // Transição começa antes do fim: apagão inicia ~2.5s antes do vídeo terminar
-        const startFadeBeforeEnd = 2.5;
+
+        // Transição suave: começa um pouco antes do vídeo acabar,
+        // mas sem cortar bruscamente o final (apagão em cima do movimento final).
+        const startFadeBeforeEnd = 1.0; // segundos antes do fim
+
         const onTimeUpdate = () => {
-          if (video.duration && !isNaN(video.duration) && video.currentTime >= video.duration - startFadeBeforeEnd) {
-            video.removeEventListener("timeupdate", onTimeUpdate);
+          if (!video.duration || isNaN(video.duration)) return;
+          if (
+            !this._fadeStarted &&
+            video.currentTime >= video.duration - startFadeBeforeEnd
+          ) {
             this.aoFimDoVideo();
           }
         };
+
         video.addEventListener("timeupdate", onTimeUpdate);
-        video.addEventListener("ended", () => {
-          video.removeEventListener("timeupdate", onTimeUpdate);
-          if (!this._fadeStarted) this.aoFimDoVideo();
-        }, { once: true });
+        video.addEventListener(
+          "ended",
+          () => {
+            video.removeEventListener("timeupdate", onTimeUpdate);
+            if (!this._fadeStarted) this.aoFimDoVideo();
+          },
+          { once: true },
+        );
       },
     });
 
@@ -659,7 +677,7 @@ class AnimationManager {
           opacity: 0,
           ease: "power2.in",
         },
-        container ? "-=0.6" : 0
+        container ? "-=0.6" : 0,
       );
     }
     if (container) videoTimeline.set(container, { visibility: "hidden" });

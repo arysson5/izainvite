@@ -226,12 +226,41 @@ function initModals() {
   }
 }
 
+function initBgMusic() {
+  const audio = document.getElementById("bgMusic");
+  if (!audio) return;
+
+  audio.volume = 0.45;
+
+  const tryPlay = () => {
+    audio
+      .play()
+      .then(() => {})
+      .catch(() => {});
+  };
+
+  // Tenta tocar assim que a página estiver pronta
+  tryPlay();
+
+  // Garante início da música na primeira interação, caso o autoplay com som seja bloqueado
+  const startOnInteraction = () => {
+    tryPlay();
+    document.removeEventListener("click", startOnInteraction);
+    document.removeEventListener("touchstart", startOnInteraction);
+  };
+
+  document.addEventListener("click", startOnInteraction, { once: true });
+  document.addEventListener("touchstart", startOnInteraction, { once: true });
+}
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initConvite();
     initModals();
+    initBgMusic();
   });
 } else {
   initConvite();
   initModals();
+  initBgMusic();
 }

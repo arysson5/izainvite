@@ -241,12 +241,14 @@ body.page-convite {
 
 /* Subtítulo: XV da Iza com ícone */
 .convite-modal .convite-subtitulo {
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1rem, 2.8vw, 1.2rem);
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(140, 90, 120, 0.95);
+  /* Fonte de assinatura mais elegante para o nome do evento */
+  font-family: "Great Vibes", "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.6rem, 3.4vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  /* Texto mais escuro para melhor contraste no fundo claro */
+  color: #251326;
   margin: 0 0 0.6rem;
   font-style: normal;
   line-height: 1.3;
@@ -264,7 +266,7 @@ body.page-convite {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: rgba(180, 120, 150, 0.9);
+  color: #3a1c3e;
 }
 
 .convite-modal .convite-subtitulo-icon svg {
@@ -278,14 +280,14 @@ body.page-convite {
   transform: translateY(0);
 }
 
-/* Tipografia elegante - Cormorant Garamond */
+/* Tipografia elegante - títulos em Cinzel, textos em Cormorant */
 .convite-modal .convite-titulo {
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: "Cinzel", "Cormorant Garamond", Georgia, serif;
   font-size: clamp(1.5rem, 4.2vw, 1.85rem);
   font-weight: 500;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(75, 55, 70, 0.96);
+  color: #1a101d;
   margin-bottom: 1.35rem;
   font-style: normal;
   line-height: 1.25;
@@ -326,7 +328,8 @@ body.page-convite {
   font-size: clamp(1.05rem, 2.6vw, 1.15rem);
   font-weight: 400;
   line-height: 1.8;
-  color: rgba(70, 55, 68, 0.9);
+  /* Texto principal bem próximo do preto para máxima leitura */
+  color: #111015;
   margin-bottom: 1.5rem;
   opacity: 0;
   transform: translateY(12px);
@@ -344,7 +347,7 @@ body.page-convite {
   font-size: clamp(0.95rem, 2.2vw, 1.05rem);
   font-weight: 300;
   letter-spacing: 0.12em;
-  color: rgba(80, 62, 75, 0.88);
+  color: #111015;
   margin-top: 1rem;
   line-height: 1.7;
   opacity: 0;
@@ -397,12 +400,12 @@ body.page-convite {
 
 .convite-block-label {
   display: block;
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: "Cinzel", "Cormorant Garamond", Georgia, serif;
   font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(100, 75, 90, 0.85);
+  color: #271327;
   margin-bottom: 0.6rem;
 }
 
@@ -410,7 +413,7 @@ body.page-convite {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: clamp(1.05rem, 2.6vw, 1.2rem);
   font-weight: 400;
-  color: rgba(70, 55, 68, 0.95);
+  color: #1c111f;
   line-height: 1.5;
 }
 
@@ -418,7 +421,7 @@ body.page-convite {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: clamp(1rem, 2.4vw, 1.15rem);
   font-weight: 500;
-  color: rgba(75, 55, 70, 0.95);
+  color: #1a101d;
   margin-bottom: 1rem;
 }
 
@@ -443,7 +446,7 @@ body.page-convite {
   font-size: 0.95rem;
   font-weight: 400;
   letter-spacing: 0.1em;
-  color: rgba(110, 75, 95, 0.95);
+  color: #1c111f;
   text-decoration: none;
   border-bottom: 1px solid rgba(170, 130, 155, 0.5);
   transition: color 0.25s ease, border-color 0.25s ease;
@@ -475,7 +478,7 @@ body.page-convite {
   border: 1px solid rgba(220, 195, 210, 0.5);
   border-radius: 10px;
   text-decoration: none;
-  color: rgba(70, 55, 68, 0.95);
+  color: #1a101d;
   transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
   box-shadow: 0 2px 12px rgba(80, 60, 80, 0.06);
 }
@@ -509,7 +512,7 @@ body.page-convite {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: 0.7rem;
   font-weight: 400;
-  color: rgba(100, 80, 95, 0.8);
+  color: #241324;
   line-height: 1.25;
   text-align: center;
 }
@@ -534,7 +537,7 @@ body.page-convite {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: clamp(1.75rem, 4vw, 2.25rem);
   font-weight: 500;
-  color: rgba(75, 55, 70, 0.96);
+  color: #1a101d;
   line-height: 1.2;
   display: block;
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -29,7 +29,20 @@
     <!-- Anúncio XV -->
     <p class="index-xv-text" aria-hidden="true">
       <span class="index-xv-icon" aria-hidden="true">
-        <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"/></svg>
+        <svg
+          width="1em"
+          height="1em"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"
+          />
+        </svg>
       </span>
       XV da Iza
     </p>
@@ -50,7 +63,13 @@
 
       <!-- Animação de clique simples para smartphones -->
       <div class="click-indicator" id="clickIndicator">
-        <div class="click-circle"></div>
+        <div class="click-circle">
+          <img
+            src="assets/icones/dedo.png"
+            alt="Toque para abrir"
+            class="click-finger-icon"
+          />
+        </div>
       </div>
 
       <!-- Logo para animação de expansão (oculto inicialmente) -->
@@ -69,9 +88,8 @@
     <div class="video-fullscreen" id="videoFullscreen">
       <video
         id="conviteVideo"
-        src="assets/videos/Video_cinematografico_em_202602191542_h1rro.mp4"
+        src="assets/videos/video_final.mp4"
         playsinline
-        muted
       ></video>
       <div class="video-fade-overlay" id="videoFadeOverlay"></div>
     </div>
