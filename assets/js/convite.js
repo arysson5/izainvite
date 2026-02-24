@@ -41,7 +41,8 @@ function initCountdown() {
 }
 
 function initScrollTrigger() {
-  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined")
+    return;
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -70,7 +71,7 @@ function initScrollTrigger() {
           end: "top 55%",
           toggleActions: "play none none none",
         },
-      }
+      },
     );
   });
 }
@@ -122,11 +123,7 @@ function initConvite() {
   }
 
   // 2. Desfoco e brilho
-  tl.to(
-    backdrop,
-    { opacity: 1, duration: 1.05, ease: "power2.out" },
-    "-=0.95"
-  );
+  tl.to(backdrop, { opacity: 1, duration: 1.05, ease: "power2.out" }, "-=0.95");
   tl.add(() => {
     backdrop.classList.add("is-visible");
     if (brilho) brilho.classList.add("is-visible");
@@ -142,7 +139,7 @@ function initConvite() {
       duration: 1.25,
       ease: "power2.out",
     },
-    "-=0.7"
+    "-=0.7",
   );
 
   // 4. Modal interno visível
@@ -192,7 +189,9 @@ function initModals() {
     });
   }
   if (closeSugestoes && overlaySugestoes) {
-    closeSugestoes.addEventListener("click", () => closeModal(overlaySugestoes));
+    closeSugestoes.addEventListener("click", () =>
+      closeModal(overlaySugestoes),
+    );
     overlaySugestoes.addEventListener("click", (e) => {
       if (e.target === overlaySugestoes) closeModal(overlaySugestoes);
     });
@@ -213,15 +212,18 @@ function initModals() {
 
   if (btnCopyPix) {
     btnCopyPix.addEventListener("click", () => {
-      navigator.clipboard.writeText(PIX_KEY_RAW).then(() => {
-        const label = btnCopyPix.textContent;
-        btnCopyPix.textContent = "Copiado!";
-        btnCopyPix.classList.add("copied");
-        setTimeout(() => {
-          btnCopyPix.textContent = label;
-          btnCopyPix.classList.remove("copied");
-        }, 2000);
-      }).catch(() => {});
+      navigator.clipboard
+        .writeText(PIX_KEY_RAW)
+        .then(() => {
+          const label = btnCopyPix.textContent;
+          btnCopyPix.textContent = "Copiado!";
+          btnCopyPix.classList.add("copied");
+          setTimeout(() => {
+            btnCopyPix.textContent = label;
+            btnCopyPix.classList.remove("copied");
+          }, 2000);
+        })
+        .catch(() => {});
     });
   }
 }
@@ -231,19 +233,6 @@ function initBgMusic() {
   if (!audio) return;
 
   audio.volume = 0.45;
-
-  const toggleBtn = document.getElementById("audioToggle");
-
-  const updateToggleState = () => {
-    if (!toggleBtn) return;
-    if (audio.muted || audio.paused) {
-      toggleBtn.classList.add("is-muted");
-      toggleBtn.setAttribute("aria-label", "Ativar música");
-    } else {
-      toggleBtn.classList.remove("is-muted");
-      toggleBtn.setAttribute("aria-label", "Mutar música");
-    }
-  };
 
   const tryPlay = () => {
     audio
@@ -263,7 +252,6 @@ function initBgMusic() {
 
   // Tenta tocar assim que a página estiver pronta (autoplay-friendly em muitos navegadores)
   tryPlay();
-  updateToggleState();
 
   // Pausa quando o usuário sai do navegador/aba e tenta retomar ao voltar
   const handleVisibility = () => {
@@ -271,27 +259,12 @@ function initBgMusic() {
       pauseAudio();
     } else {
       tryPlay();
-      updateToggleState();
     }
   };
 
   document.addEventListener("visibilitychange", handleVisibility);
   window.addEventListener("pagehide", pauseAudio);
   window.addEventListener("blur", pauseAudio);
-
-  if (toggleBtn) {
-    toggleBtn.addEventListener("click", () => {
-      // Alterna mute; se desmutar, garante que está tocando
-      const willBeMuted = !audio.muted;
-      audio.muted = willBeMuted;
-      if (!willBeMuted) {
-        tryPlay();
-      } else {
-        pauseAudio();
-      }
-      updateToggleState();
-    });
-  }
 }
 
 if (document.readyState === "loading") {
