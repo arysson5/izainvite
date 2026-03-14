@@ -352,16 +352,33 @@ function initConfirmarPresenca() {
   });
 }
 
+function initLogoGestao() {
+  const logo = document.getElementById("logoGestao");
+  if (!logo) return;
+  logo.addEventListener("click", function (e) {
+    e.preventDefault();
+    const senha = prompt("Digite a senha para acessar a gestão:");
+    if (senha === "xvdaiza123") {
+      sessionStorage.setItem("gestao_token", "xvdaiza123");
+      window.location.href = "gestao.html";
+    } else if (senha !== null) {
+      alert("Senha incorreta.");
+    }
+  });
+}
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initConvite();
     initModals();
     initConfirmarPresenca();
+    initLogoGestao();
     initBgMusic();
   });
 } else {
   initConvite();
   initModals();
   initConfirmarPresenca();
+  initLogoGestao();
   initBgMusic();
 }

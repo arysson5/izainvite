@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestão de Convidados — XV da Iza</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --gestao-bg: #faf8f6;
+        --gestao-card: #fff;
+        --gestao-text: #2c2428;
+        --gestao-muted: #6b5f6b;
+        --gestao-border: #e5dfe5;
+        --gestao-accent: #8b6b7a;
+        --gestao-bar-bg: #e8e0e4;
+        --gestao-bar-fill: #9a7a88;
+        --gestao-limit: 120;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Cormorant Garamond", serif;
+        background: var(--gestao-bg);
+        color: var(--gestao-text);
+        margin: 0;
+        min-height: 100vh;
+        padding: 1.5rem 1rem 3rem;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .gestao-wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .gestao-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .gestao-logo-link {
+        display: inline-block;
+        margin-bottom: 0.5rem;
+      }
+
+      .gestao-logo-link img {
+        width: 48px;
+        height: auto;
+        opacity: 0.85;
+      }
+
+      .gestao-title {
+        font-family: "Cinzel", serif;
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin: 0 0 0.25rem;
+        letter-spacing: 0.02em;
+      }
+
+      .gestao-sub {
+        font-size: 1rem;
+        color: var(--gestao-muted);
+        margin: 0;
+      }
+
+      .gestao-back {
+        display: inline-block;
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        color: var(--gestao-accent);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+
+      .gestao-back:hover {
+        border-bottom-color: var(--gestao-accent);
+      }
+
+      .gestao-card {
+        background: var(--gestao-card);
+        border: 1px solid var(--gestao-border);
+        border-radius: 8px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 12px rgba(44, 36, 40, 0.06);
+      }
+
+      .gestao-card h2 {
+        font-family: "Cinzel", serif;
+        font-weight: 500;
+        font-size: 1.1rem;
+        margin: 0 0 1rem;
+        color: var(--gestao-text);
+      }
+
+      .gestao-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .gestao-stat {
+        text-align: center;
+        padding: 0.75rem;
+        background: var(--gestao-bg);
+        border-radius: 6px;
+        border: 1px solid var(--gestao-border);
+      }
+
+      .gestao-stat-num {
+        font-family: "Cinzel", serif;
+        font-weight: 600;
+        font-size: 1.75rem;
+        color: var(--gestao-accent);
+        display: block;
+      }
+
+      .gestao-stat-label {
+        font-size: 0.9rem;
+        color: var(--gestao-muted);
+        margin-top: 0.25rem;
+      }
+
+      .gestao-bar-wrap {
+        margin-bottom: 0.5rem;
+      }
+
+      .gestao-bar-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: var(--gestao-muted);
+        margin-bottom: 0.35rem;
+      }
+
+      .gestao-bar-track {
+        height: 12px;
+        background: var(--gestao-bar-bg);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .gestao-bar-fill {
+        height: 100%;
+        background: var(--gestao-bar-fill);
+        border-radius: 6px;
+        transition: width 0.4s ease;
+      }
+
+      .gestao-bar-fill.over {
+        background: #a65c6b;
+      }
+
+      .gestao-table-wrap {
+        overflow-x: auto;
+      }
+
+      .gestao-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.95rem;
+      }
+
+      .gestao-table th,
+      .gestao-table td {
+        padding: 0.6rem 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid var(--gestao-border);
+      }
+
+      .gestao-table th {
+        font-family: "Cinzel", serif;
+        font-weight: 500;
+        font-size: 0.85rem;
+        color: var(--gestao-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .gestao-table tbody tr:hover {
+        background: rgba(139, 107, 122, 0.04);
+      }
+
+      .gestao-loading,
+      .gestao-erro {
+        text-align: center;
+        padding: 2rem;
+        color: var(--gestao-muted);
+      }
+
+      .gestao-erro {
+        color: #a65c6b;
+      }
+
+      @media (max-width: 520px) {
+        .gestao-stats {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gestao-wrap">
+      <header class="gestao-header">
+        <a href="convite.html" class="gestao-logo-link" title="Voltar ao convite">
+          <img src="assets/images/logo/Untitled.png" alt="" />
+        </a>
+        <h1 class="gestao-title">Gestão de Convidados</h1>
+        <p class="gestao-sub">XV da Iza</p>
+        <a href="convite.html" class="gestao-back">← Voltar ao convite</a>
+      </header>
+
+      <section class="gestao-card" id="cardTotais">
+        <h2>Resumo</h2>
+        <div class="gestao-stats" id="gestaoStats">
+          <div class="gestao-stat">
+            <span class="gestao-stat-num" id="numOficiais">—</span>
+            <span class="gestao-stat-label">Convidados oficiais</span>
+          </div>
+          <div class="gestao-stat">
+            <span class="gestao-stat-num" id="numAcompanhantes">—</span>
+            <span class="gestao-stat-label">Acompanhantes</span>
+          </div>
+          <div class="gestao-stat">
+            <span class="gestao-stat-num" id="numTotal">—</span>
+            <span class="gestao-stat-label">Total de pessoas</span>
+          </div>
+        </div>
+        <div class="gestao-bar-wrap">
+          <div class="gestao-bar-label">
+            <span>Limite de convidados</span>
+            <span id="barLabel">0 / 120</span>
+          </div>
+          <div class="gestao-bar-track">
+            <div class="gestao-bar-fill" id="barFill" style="width: 0%"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="gestao-card" id="cardTabela">
+        <h2>Convidados e acompanhantes</h2>
+        <div class="gestao-table-wrap">
+          <div id="gestaoLoading" class="gestao-loading">Carregando…</div>
+          <div id="gestaoErro" class="gestao-erro" hidden></div>
+          <table class="gestao-table" id="gestaoTable" hidden>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Presença</th>
+                <th>Acompanhante</th>
+                <th>Nome do acompanhante</th>
+              </tr>
+            </thead>
+            <tbody id="gestaoTbody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const LIMITE = 120;
+      const TOKEN_KEY = "gestao_token";
+
+      if (!sessionStorage.getItem(TOKEN_KEY)) {
+        window.location.replace("convite.html");
+      }
+
+      function getToken() {
+        return sessionStorage.getItem(TOKEN_KEY);
+      }
+
+      function renderTotais(totais) {
+        document.getElementById("numOficiais").textContent = totais.convidadosOficiais;
+        document.getElementById("numAcompanhantes").textContent = totais.acompanhantes;
+        document.getElementById("numTotal").textContent = totais.total;
+
+        const pct = Math.min(100, Math.round((totais.total / LIMITE) * 100));
+        const barFill = document.getElementById("barFill");
+        const barLabel = document.getElementById("barLabel");
+        barFill.style.width = pct + "%";
+        barLabel.textContent = totais.total + " / " + LIMITE;
+        if (totais.total >= LIMITE) barFill.classList.add("over");
+        else barFill.classList.remove("over");
+      }
+
+      function renderTabela(convidados) {
+        const tbody = document.getElementById("gestaoTbody");
+        tbody.innerHTML = "";
+        convidados.forEach(function (c) {
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            "<td>" + escapeHtml(c.nome) + "</td>" +
+            "<td>" + escapeHtml(c.presenca) + "</td>" +
+            "<td>" + escapeHtml(c.acompanhante || "—") + "</td>" +
+            "<td>" + escapeHtml(c.nomeAcompanhante || "—") + "</td>";
+          tbody.appendChild(tr);
+        });
+      }
+
+      function escapeHtml(s) {
+        if (!s) return "";
+        const div = document.createElement("div");
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      const loading = document.getElementById("gestaoLoading");
+      const erro = document.getElementById("gestaoErro");
+      const table = document.getElementById("gestaoTable");
+
+      fetch("/api/convidados", {
+        method: "GET",
+        headers: { "X-Gestao-Token": getToken() },
+      })
+        .then(function (res) {
+          if (res.status === 401) {
+            sessionStorage.removeItem(TOKEN_KEY);
+            window.location.replace("convite.html");
+            return;
+          }
+          return res.json();
+        })
+        .then(function (data) {
+          loading.hidden = true;
+          if (!data || data.message) {
+            erro.textContent = data && data.message ? data.message : "Erro ao carregar dados.";
+            erro.hidden = false;
+            return;
+          }
+          renderTotais(data.totais);
+          renderTabela(data.convidados);
+          table.hidden = false;
+        })
+        .catch(function () {
+          loading.hidden = true;
+          erro.textContent = "Erro de conexão. Tente novamente.";
+          erro.hidden = false;
+        });
+    </script>
+  </body>
+</html>

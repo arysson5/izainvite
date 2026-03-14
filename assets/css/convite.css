@@ -239,6 +239,13 @@ body.page-convite {
   transform: translateY(0);
 }
 
+.convite-logo-gestao {
+  cursor: pointer;
+}
+.convite-logo-gestao:hover {
+  opacity: 1;
+}
+
 /* Subtítulo: XV da Iza com ícone */
 .convite-modal .convite-subtitulo {
   /* Fonte de assinatura mais elegante para o nome do evento */
