@@ -104,7 +104,7 @@
 
       .gestao-stats {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
         gap: 1rem;
         margin-bottom: 1.5rem;
       }
@@ -123,6 +123,10 @@
         font-size: 1.75rem;
         color: var(--gestao-accent);
         display: block;
+      }
+
+      .gestao-stat-num.nao-vao {
+        color: var(--gestao-muted);
       }
 
       .gestao-stat-label {
@@ -202,9 +206,31 @@
         color: #a65c6b;
       }
 
+      .gestao-list-nao-vao {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .gestao-list-nao-vao li {
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--gestao-border);
+        font-size: 1rem;
+      }
+
+      .gestao-list-nao-vao li:last-child {
+        border-bottom: none;
+      }
+
+      .gestao-nenhum {
+        color: var(--gestao-muted);
+        font-style: italic;
+        padding: 0.75rem 0;
+      }
+
       @media (max-width: 520px) {
         .gestao-stats {
-          grid-template-columns: 1fr;
+          grid-template-columns: repeat(2, 1fr);
         }
       }
     </style>
@@ -235,6 +261,10 @@
             <span class="gestao-stat-num" id="numTotal">—</span>
             <span class="gestao-stat-label">Total de pessoas</span>
           </div>
+          <div class="gestao-stat">
+            <span class="gestao-stat-num nao-vao" id="numNaoVao">—</span>
+            <span class="gestao-stat-label">Não poderão ir</span>
+          </div>
         </div>
         <div class="gestao-bar-wrap">
           <div class="gestao-bar-label">
@@ -244,6 +274,28 @@
           <div class="gestao-bar-track">
             <div class="gestao-bar-fill" id="barFill" style="width: 0%"></div>
           </div>
+        </div>
+      </section>
+
+      <section class="gestao-card" id="cardNaoVao">
+        <h2>Quem não poderá ir</h2>
+        <ul class="gestao-list-nao-vao" id="listNaoVao"></ul>
+        <p class="gestao-nenhum" id="nenhumNaoVao" hidden>Ninguém marcou que não vai até o momento.</p>
+      </section>
+
+      <section class="gestao-card" id="cardAcompanhantes">
+        <h2>Acompanhantes e quem os cadastrou</h2>
+        <div class="gestao-table-wrap">
+          <table class="gestao-table" id="gestaoTableAcompanhantes">
+            <thead>
+              <tr>
+                <th>Convidado</th>
+                <th>Acompanhante</th>
+              </tr>
+            </thead>
+            <tbody id="gestaoTbodyAcompanhantes"></tbody>
+          </table>
+          <p class="gestao-nenhum" id="nenhumAcompanhante" hidden>Nenhum acompanhante cadastrado até o momento.</p>
         </div>
       </section>
 
@@ -279,10 +331,18 @@
         return sessionStorage.getItem(TOKEN_KEY);
       }
 
-      function renderTotais(totais) {
+      function isNaoPoderaIr(presenca) {
+        var p = (presenca || "").toLowerCase();
+        return p.indexOf("não") !== -1 || p === "nao poderei ir" || p === "não poderei ir";
+      }
+
+      function renderTotais(totais, convidados) {
         document.getElementById("numOficiais").textContent = totais.convidadosOficiais;
         document.getElementById("numAcompanhantes").textContent = totais.acompanhantes;
         document.getElementById("numTotal").textContent = totais.total;
+
+        var naoVao = (convidados || []).filter(function (c) { return isNaoPoderaIr(c.presenca); }).length;
+        document.getElementById("numNaoVao").textContent = naoVao;
 
         const pct = Math.min(100, Math.round((totais.total / LIMITE) * 100));
         const barFill = document.getElementById("barFill");
@@ -291,6 +351,51 @@
         barLabel.textContent = totais.total + " / " + LIMITE;
         if (totais.total >= LIMITE) barFill.classList.add("over");
         else barFill.classList.remove("over");
+      }
+
+      function renderNaoVao(convidados) {
+        var lista = convidados.filter(function (c) { return isNaoPoderaIr(c.presenca); });
+        var listEl = document.getElementById("listNaoVao");
+        var nenhumEl = document.getElementById("nenhumNaoVao");
+        listEl.innerHTML = "";
+        if (lista.length === 0) {
+          listEl.hidden = true;
+          nenhumEl.hidden = false;
+        } else {
+          nenhumEl.hidden = true;
+          listEl.hidden = false;
+          lista.forEach(function (c) {
+            var li = document.createElement("li");
+            li.textContent = c.nome;
+            listEl.appendChild(li);
+          });
+        }
+      }
+
+      function temAcompanhante(c) {
+        return (c.acompanhante || "").toLowerCase() === "sim" || (c.nomeAcompanhante || "").trim() !== "";
+      }
+
+      function renderTabelaAcompanhantes(convidados) {
+        var comAcompanhante = (convidados || []).filter(temAcompanhante);
+        var tbody = document.getElementById("gestaoTbodyAcompanhantes");
+        var nenhumEl = document.getElementById("nenhumAcompanhante");
+        var tableEl = document.getElementById("gestaoTableAcompanhantes");
+        tbody.innerHTML = "";
+        if (comAcompanhante.length === 0) {
+          tableEl.hidden = true;
+          nenhumEl.hidden = false;
+        } else {
+          nenhumEl.hidden = true;
+          tableEl.hidden = false;
+          comAcompanhante.forEach(function (c) {
+            var tr = document.createElement("tr");
+            tr.innerHTML =
+              "<td>" + escapeHtml(c.nome) + "</td>" +
+              "<td>" + escapeHtml(c.nomeAcompanhante || "—") + "</td>";
+            tbody.appendChild(tr);
+          });
+        }
       }
 
       function renderTabela(convidados) {
@@ -337,7 +442,9 @@
             erro.hidden = false;
             return;
           }
-          renderTotais(data.totais);
+          renderTotais(data.totais, data.convidados);
+          renderNaoVao(data.convidados);
+          renderTabelaAcompanhantes(data.convidados);
           renderTabela(data.convidados);
           table.hidden = false;
         })
