@@ -517,6 +517,119 @@ body.page-convite {
   text-align: center;
 }
 
+/* Bloco e botão Confirmar presença */
+.convite-block-confirmar {
+  padding: 1.5rem 1.25rem 1.25rem;
+  border-bottom: none;
+}
+
+.convite-btn-confirmar {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  font-family: "Cinzel", "Cormorant Garamond", Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #3a233e 0%, #5c3a62 100%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 6px 24px rgba(90, 60, 95, 0.35);
+}
+
+.convite-btn-confirmar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(90, 60, 95, 0.45);
+  opacity: 0.95;
+}
+
+/* Formulário Confirmar presença (modal) */
+.convite-form-confirmar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.convite-form-label {
+  font-family: "Cinzel", "Cormorant Garamond", Georgia, serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: #1a101d;
+  display: block;
+  margin-bottom: -0.25rem;
+}
+
+.convite-form-select,
+.convite-form-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1rem;
+  color: #1a101d;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(180, 150, 170, 0.5);
+  border-radius: 8px;
+  transition: border-color 0.2s ease;
+}
+
+.convite-form-select:focus,
+.convite-form-input:focus {
+  outline: none;
+  border-color: #5c3a62;
+}
+
+.convite-form-wrap-acompanhante {
+  margin-top: 0.25rem;
+}
+
+.convite-form-mensagem {
+  font-size: 0.9rem;
+  min-height: 1.4em;
+  margin: 0;
+}
+
+.convite-form-mensagem.sucesso {
+  color: #2d5a2d;
+}
+
+.convite-form-mensagem.erro {
+  color: #8b2a2a;
+}
+
+.convite-btn-submit {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-family: "Cinzel", "Cormorant Garamond", Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #3a233e 0%, #5c3a62 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.convite-btn-submit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.convite-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Contagem regressiva */
 .convite-countdown {
   display: flex;

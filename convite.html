@@ -68,25 +68,7 @@
                     alt=""
                     class="convite-logo convite-logo-top"
                   />
-                  <p class="convite-subtitulo">
-                    <span class="convite-subtitulo-icon" aria-hidden="true">
-                      <svg
-                        width="1em"
-                        height="1em"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path
-                          d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"
-                        />
-                      </svg>
-                    </span>
-                    XV da Iza
-                  </p>
+                  <p class="convite-subtitulo">XV da Iza</p>
                   <h1 class="convite-titulo">Você Está Convidado(a)</h1>
                   <div class="convite-divider"></div>
                   <p class="convite-mensagem">
@@ -232,6 +214,12 @@
                   >
                 </a>
               </div>
+              <!-- Botão chamativo: Confirmar presença -->
+              <div class="convite-block convite-block-confirmar" id="conviteSectionConfirmar">
+                <button type="button" class="convite-btn-confirmar" id="btnConfirmarPresenca">
+                  Confirmar presença
+                </button>
+              </div>
               <div class="convite-footer-logo">
                 <img
                   src="assets/images/logo/Untitled.png"
@@ -245,6 +233,33 @@
         </div>
       </div>
     </main>
+
+    <!-- Modal: Confirmar presença -->
+    <div class="convite-overlay" id="overlayConfirmar" aria-hidden="true">
+      <div class="convite-modal-popup" id="modalConfirmar">
+        <button type="button" class="convite-modal-close" id="closeConfirmar" aria-label="Fechar">&times;</button>
+        <h3 class="convite-modal-popup-title">Confirmar presença</h3>
+        <div class="convite-modal-popup-body">
+          <form id="formConfirmar" class="convite-form-confirmar">
+            <label class="convite-form-label" for="confirmarPresenca">Sua resposta</label>
+            <select id="confirmarPresenca" class="convite-form-select" required>
+              <option value="">Selecione</option>
+              <option value="Comparecerei">Comparecerei</option>
+              <option value="Não poderei ir">Não poderei ir</option>
+              <option value="Levarei um acompanhante">Levarei um acompanhante</option>
+            </select>
+            <label class="convite-form-label" for="confirmarNome">Seu nome</label>
+            <input type="text" id="confirmarNome" class="convite-form-input" placeholder="Digite seu nome" required />
+            <div id="wrapAcompanhante" class="convite-form-wrap-acompanhante" hidden>
+              <label class="convite-form-label" for="confirmarNomeAcompanhante">Nome do acompanhante</label>
+              <input type="text" id="confirmarNomeAcompanhante" class="convite-form-input" placeholder="Nome do acompanhante" />
+            </div>
+            <p id="confirmarMensagem" class="convite-form-mensagem" aria-live="polite"></p>
+            <button type="submit" class="convite-btn-submit" id="btnEnviarConfirmacao">Enviar confirmação</button>
+          </form>
+        </div>
+      </div>
+    </div>
 
     <!-- Modal: Sugestões de presentes -->
     <div class="convite-overlay" id="overlaySugestoes" aria-hidden="true">

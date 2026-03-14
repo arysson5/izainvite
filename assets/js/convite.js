@@ -52,6 +52,7 @@ function initScrollTrigger() {
     "#conviteSectionTraje",
     "#conviteSectionCountdown",
     "#conviteSectionButtons",
+    "#conviteSectionConfirmar",
   ];
 
   sections.forEach((selector) => {
@@ -280,14 +281,87 @@ function initBgMusic() {
   window.addEventListener("blur", pauseAudio);
 }
 
+function initConfirmarPresenca() {
+  const btnAbrir = document.getElementById("btnConfirmarPresenca");
+  const overlay = document.getElementById("overlayConfirmar");
+  const closeBtn = document.getElementById("closeConfirmar");
+  const form = document.getElementById("formConfirmar");
+  const selectPresenca = document.getElementById("confirmarPresenca");
+  const wrapAcompanhante = document.getElementById("wrapAcompanhante");
+  const inputNomeAcompanhante = document.getElementById("confirmarNomeAcompanhante");
+  const msgEl = document.getElementById("confirmarMensagem");
+  const btnEnviar = document.getElementById("btnEnviarConfirmacao");
+
+  if (!btnAbrir || !overlay || !form) return;
+
+  function openConfirmar() {
+    overlay.classList.add("is-open");
+    overlay.setAttribute("aria-hidden", "false");
+  }
+  function closeConfirmar() {
+    overlay.classList.remove("is-open");
+    overlay.setAttribute("aria-hidden", "true");
+  }
+
+  btnAbrir.addEventListener("click", openConfirmar);
+  if (closeBtn) closeBtn.addEventListener("click", closeConfirmar);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeConfirmar();
+  });
+
+  selectPresenca.addEventListener("change", () => {
+    const isAcompanhante = selectPresenca.value === "Levarei um acompanhante";
+    wrapAcompanhante.hidden = !isAcompanhante;
+    if (!isAcompanhante) inputNomeAcompanhante.value = "";
+    if (inputNomeAcompanhante) inputNomeAcompanhante.required = isAcompanhante;
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nome = document.getElementById("confirmarNome").value.trim();
+    const presenca = selectPresenca.value;
+    const nomeAcompanhante = presenca === "Levarei um acompanhante" ? (inputNomeAcompanhante && inputNomeAcompanhante.value.trim()) || "" : "";
+
+    msgEl.textContent = "";
+    msgEl.className = "convite-form-mensagem";
+    if (btnEnviar) btnEnviar.disabled = true;
+
+    try {
+      const res = await fetch("/api/confirmar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, presenca, nomeAcompanhante }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        msgEl.textContent = data.message || "Não foi possível enviar. Tente de novo.";
+        msgEl.classList.add("erro");
+        return;
+      }
+      msgEl.textContent = "Obrigado! Sua confirmação foi registrada.";
+      msgEl.classList.add("sucesso");
+      form.reset();
+      wrapAcompanhante.hidden = true;
+      setTimeout(closeConfirmar, 1500);
+    } catch (err) {
+      msgEl.textContent = "Erro de conexão. Tente novamente.";
+      msgEl.classList.add("erro");
+    } finally {
+      if (btnEnviar) btnEnviar.disabled = false;
+    }
+  });
+}
+
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     initConvite();
     initModals();
+    initConfirmarPresenca();
     initBgMusic();
   });
 } else {
   initConvite();
   initModals();
+  initConfirmarPresenca();
   initBgMusic();
 }
