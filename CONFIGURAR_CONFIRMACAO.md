@@ -24,7 +24,19 @@ A confirmação de presença grava na planilha [convite_isa](https://docs.google
   - **Name:** `GOOGLE_SHEET_ID`
   - **Value:** o ID da planilha (o que aparece em `docs.google.com/spreadsheets/d/SEU_ID_AQUI/edit`).
 
-## 3. Testar
+## 3. Valor da variável no Vercel
+
+- No campo **Value** coloque **somente** o conteúdo do arquivo JSON (começando com `{` e terminando com `}`).
+- **Não** inclua o nome da variável no valor (ex.: não use `GOOGLE_SERVICE_ACCOUNT_JSON={...}` no Value).
+- O JSON deve estar em **uma única linha** (minificado). Quebras de linha podem causar erro. Você pode minificar em [jsonformatter.org](https://jsonformatter.org/json-minify) colando o JSON do arquivo e copiando o resultado para o Value.
+
+## 4. Erro 500 no Vercel
+
+- Confirme que a planilha foi **compartilhada** com o e-mail da conta de serviço (ex.: `invite-sheets@casa-nova-461916.iam.gserviceaccount.com`) com permissão **Editor**.
+- Abra a planilha no Google Sheets → Compartilhar → adicione esse e-mail como Editor.
+- Depois de alterar variáveis no Vercel, faça um **novo deploy** (Redeploy) para a configuração ser aplicada.
+
+## 5. Testar
 
 Faça um novo deploy. Na página do convite, use **Confirmar presença**, preencha e envie. Uma nova linha deve aparecer na aba **convidados** da planilha.
 
