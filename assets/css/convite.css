@@ -519,34 +519,40 @@ body.page-convite {
 
 /* Bloco e botão Confirmar presença */
 .convite-block-confirmar {
-  padding: 1.5rem 1.25rem 1.25rem;
+  padding: 1.75rem 1.25rem 1.5rem;
   border-bottom: none;
 }
 
 .convite-btn-confirmar {
   display: block;
   width: 100%;
-  max-width: 280px;
+  max-width: 300px;
   margin: 0 auto;
-  padding: 1rem 1.5rem;
+  padding: 1.15rem 1.75rem;
   font-family: "Cinzel", "Cormorant Garamond", Georgia, serif;
-  font-size: 1.05rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, #3a233e 0%, #5c3a62 100%);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 12px;
+  background: linear-gradient(145deg, #4a2c52 0%, #6b3d72 45%, #5c3560 100%);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-  box-shadow: 0 6px 24px rgba(90, 60, 95, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+  box-shadow:
+    0 8px 32px rgba(90, 50, 100, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .convite-btn-confirmar:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 32px rgba(90, 60, 95, 0.45);
-  opacity: 0.95;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 14px 40px rgba(90, 50, 100, 0.5),
+    0 0 24px rgba(180, 120, 200, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Formulário Confirmar presença (modal) */
@@ -746,35 +752,72 @@ body.page-convite {
   line-height: 1.6;
 }
 
-.convite-list-category {
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: rgba(85, 65, 80, 0.95);
-  margin-top: 1rem;
-  margin-bottom: 0.35rem;
+/* Modal Sugestões de presentes – layout e decoração */
+#modalSugestoes .convite-modal-popup {
+  max-width: 380px;
 }
 
-.convite-list-category:first-child {
+#modalSugestoes .convite-modal-popup-title {
+  font-size: 1.35rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(180, 140, 170, 0.35);
+}
+
+#modalSugestoes .convite-modal-popup-body {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: #1a101d;
+  padding-right: 0.25rem;
+}
+
+.convite-sugestao-intro {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1rem 1rem 0;
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: #1a101d;
+  border-left: 3px solid rgba(140, 90, 130, 0.5);
+  padding-left: 1rem;
+}
+
+.convite-list-category {
+  font-family: "Cinzel", "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.12em;
+  color: #3a233e;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba(200, 170, 190, 0.4);
+}
+
+.convite-list-category:first-of-type {
   margin-top: 0;
 }
 
 .convite-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 0.5rem;
 }
 
 .convite-list li {
-  padding: 0.25rem 0;
-  padding-left: 1rem;
+  padding: 0.4rem 0 0.4rem 1.35rem;
+  font-size: 1.06rem;
+  line-height: 1.6;
   position: relative;
+  color: #251a28;
 }
 
 .convite-list li::before {
-  content: "·";
+  content: "✦";
   position: absolute;
   left: 0;
-  color: rgba(150, 120, 140, 0.8);
+  font-size: 0.65rem;
+  color: rgba(140, 90, 130, 0.85);
+  top: 0.65em;
 }
 
 .convite-pix-desc {

@@ -19,10 +19,12 @@
   overflow: hidden;
 }
 
+/* Altura mínima evita bug: carta (filho absolute) fica centralizada desde o primeiro frame */
 .carta {
   position: relative;
   width: 90vw;
   height: auto;
+  min-height: 75vh;
   max-width: 90vw;
   max-height: 90vh;
   transform-style: preserve-3d;
@@ -35,7 +37,7 @@
   transition: transform 0.1s ease-out;
 }
 
-/* Camadas modulares - Montagem elegante */
+/* Camadas modulares - Centralizadas no viewport para evitar deslocamento no primeiro acesso */
 .carta-layer {
   position: absolute;
   top: 50%;
@@ -46,6 +48,7 @@
   transform-style: preserve-3d;
   transition: transform 0.1s ease-out;
 }
+
 
 /* Background da carta - REMOVIDO (já temos background real) */
 .carta-background {
