@@ -7,12 +7,14 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "vercel dev",
+    "reel": "node scripts/gravar-reel.mjs"
   },
   "dependencies": {
     "googleapis": "^128.0.0"
   },
   "devDependencies": {
+    "puppeteer-core": "^25.12.0",
     "vercel": "^33.0.0"
   }
 }
