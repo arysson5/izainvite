@@ -457,13 +457,18 @@ try {
   }, 4000, "pix");
   await chaveDeExemplo(convite);
   await sleep(1200);
-  await convite.click("#closePix");
-  await sleep(160);
+  await convite.evaluate(() => {
+    document.querySelector("#closePix")?.click();
+    document.querySelector("#overlayPix")?.classList.remove("is-open");
+  });
+  await sleep(280);
 
   log("presenca");
   await rolar(convite, "#btnConfirmarPresenca");
-  await sleep(350);
-  await convite.click("#btnConfirmarPresenca");
+  await sleep(200);
+  await convite.evaluate(() => {
+    document.querySelector("#btnConfirmarPresenca")?.click();
+  });
   await esperar(convite, () => {
     const aberto = document.querySelector("#overlayConfirmar");
     return aberto && aberto.classList.contains("is-open");
@@ -539,7 +544,7 @@ try {
 
   log("fecho");
   await page.evaluate(() => window.fechar());
-  await sleep(6400);
+  await sleep(7600);
 } finally {
   await sleep(300);
   ffmpeg.kill("SIGINT");
