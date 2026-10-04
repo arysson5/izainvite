@@ -98,14 +98,14 @@ function startServer() {
     const server = createServer(async (req, res) => {
       try {
         const url = new URL(req.url, "http://127.0.0.1");
-        if (url.pathname === "/api/convidados") {
+        if (url.pathname === "/api/convidados" || url.pathname === "/api/confirmar") {
+          await new Promise((done) => {
+            req.on("data", () => {});
+            req.on("end", done);
+            req.on("error", done);
+          });
           res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
-          res.end(payload);
-          return;
-        }
-        if (url.pathname === "/api/confirmar") {
-          res.writeHead(200, { "Content-Type": "application/json; charset=utf-8" });
-          res.end(JSON.stringify({ ok: true }));
+          res.end(url.pathname === "/api/convidados" ? payload : JSON.stringify({ ok: true }));
           return;
         }
         const rel = decodeURIComponent(url.pathname);
@@ -300,12 +300,33 @@ await page.goto(`http://127.0.0.1:${port}/comercial.html`, {
 });
 await page.waitForFunction(() => window.__comercialPronto === true);
 
+process.stdout.write("preparo\n");
+const indice = await ir(page, "index.html");
+await esperar(indice, () => window.gsap && document.querySelector("#cartaMain"), 20000, "gsap");
+await esperar(indice, () => {
+  const camada = document.querySelector("#cartaMain");
+  const img = document.querySelector("#cartaImage");
+  if (!camada || !img || !img.complete || img.naturalWidth < 10) return false;
+  const opacidade = parseFloat(getComputedStyle(camada).opacity);
+  return opacidade > 0.92 && camada.getBoundingClientRect().height > 200;
+}, 20000, "carta");
+await page.evaluate(() => {
+  gsap.set("#tela", { autoAlpha: 1 });
+  gsap.set("#marca", { autoAlpha: 1 });
+});
+await dizer(page, {
+  lugar: "cima",
+  kicker: "Para.",
+  titulo: "Olha isso.",
+  sub: "Não é um link.",
+});
+
 const ffmpeg = iniciarFfmpeg();
 let ffmpegErro = "";
 ffmpeg.stderr.on("data", (chunk) => {
   ffmpegErro += chunk.toString();
 });
-await sleep(300);
+await sleep(250);
 
 const marco = Date.now();
 function log(msg) {
@@ -314,31 +335,10 @@ function log(msg) {
 
 try {
   log("gancho");
-  const indicePronto = ir(page, "index.html");
-  await dizer(page, {
-    lugar: "centro",
-    kicker: "Um convite digital",
-    titulo: "Não é um link.",
-    sub: "É uma experiência.",
+  await indice.evaluate(() => {
+    gsap.fromTo("#carta", { scale: 0.94 }, { scale: 1, duration: 0.55, ease: "back.out(1.8)" });
   });
-  await sleep(1900);
-
-  const indice = await indicePronto;
-  await esperar(indice, () => window.gsap && document.querySelector("#carta"), 20000, "gsap");
-  await esperar(indice, () => {
-    const carta = document.querySelector("#carta");
-    return carta && parseFloat(getComputedStyle(carta).opacity) > 0.9;
-  }, 20000, "carta");
-
-  log("envelope");
-  await page.evaluate(() => window.mostrarSite(true));
-  await dizer(page, {
-    lugar: "cima",
-    kicker: "O convite",
-    titulo: "Chega fechado.",
-    sub: "E pede para ser aberto.",
-  });
-  await sleep(1600);
+  await sleep(1500);
   await indice.click("#carta");
   await sleep(2400);
   await indice.evaluate(() => {
@@ -464,13 +464,17 @@ try {
   await rolar(convite, "#btnConfirmarPresenca");
   await sleep(350);
   await convite.click("#btnConfirmarPresenca");
+  await esperar(convite, () => {
+    const aberto = document.querySelector("#overlayConfirmar");
+    return aberto && aberto.classList.contains("is-open");
+  }, 4000, "abrir presenca");
   await dizer(page, {
     lugar: "cima",
     kicker: "Presença",
     titulo: "Confirma na hora.",
     sub: "Com nome e acompanhante.",
   });
-  await sleep(500);
+  await sleep(400);
   await convite.evaluate(() => {
     document.querySelectorAll("input").forEach((campo) => {
       campo.setAttribute("autocomplete", "off");
@@ -485,13 +489,29 @@ try {
   await convite.click("#confirmarNome", { clickCount: 3 });
   await convite.type("#confirmarNome", "Helena Duarte", { delay: 32 });
   await convite.type("#confirmarNomeAcompanhante", "Theo Duarte", { delay: 28 });
-  await sleep(700);
-  await convite.click("#btnEnviarConfirmacao");
-  await esperar(convite, () => {
+  await sleep(500);
+  await convite.evaluate(() => {
+    const form = document.querySelector("#formConfirmar");
+    const nome = document.querySelector("#confirmarNome");
+    const acomp = document.querySelector("#confirmarNomeAcompanhante");
+    const botao = document.querySelector("#btnEnviarConfirmacao");
+    if (nome && nome.value.trim().length < 2) nome.value = "Helena Duarte";
+    if (acomp && acomp.value.trim().length < 2) acomp.value = "Theo Duarte";
+    if (botao) botao.scrollIntoView({ block: "center", behavior: "auto" });
+    form.requestSubmit(botao);
+  });
+  const confirmou = await esperar(convite, () => {
     const msg = document.querySelector("#confirmarMensagem");
     return msg && msg.textContent.includes("Obrigado");
   }, 8000, "confirmacao");
-  await sleep(1400);
+  if (!confirmou) {
+    const texto = await convite.evaluate(() => {
+      const msg = document.querySelector("#confirmarMensagem");
+      return msg ? msg.textContent : "sem mensagem";
+    });
+    process.stdout.write(`mensagem: ${texto}\n`);
+  }
+  await sleep(1600);
 
   log("gestao");
   await page.evaluate(() => {
@@ -519,7 +539,7 @@ try {
 
   log("fecho");
   await page.evaluate(() => window.fechar());
-  await sleep(3400);
+  await sleep(6400);
 } finally {
   await sleep(300);
   ffmpeg.kill("SIGINT");

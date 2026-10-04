@@ -97,12 +97,39 @@
 
   window.fechar = function () {
     var tl = gsap.timeline();
-    tl.to([tela, legenda, marca, ".vinheta"], { autoAlpha: 0, duration: 0.4, ease: "power2.in" });
+    var faíscas = fecho.querySelectorAll(".brilhos i");
+    tl.to([tela, legenda, marca, ".vinheta"], { autoAlpha: 0, duration: 0.35, ease: "power2.in" });
     tl.set(fecho, { display: "flex" });
-    tl.from(fecho.querySelector("img"), { scale: 0.82, autoAlpha: 0, duration: 0.55, ease: "power3.out" });
-    tl.from(fecho.querySelector(".kicker"), { y: 16, autoAlpha: 0, duration: 0.35 }, "-=0.2");
-    tl.from(fecho.querySelector("h2"), { y: 40, autoAlpha: 0, duration: 0.6, ease: "power3.out" }, "-=0.15");
-    tl.from(fecho.querySelector(".fecho-nome"), { y: 18, autoAlpha: 0, duration: 0.4 }, "-=0.25");
+    tl.from(fecho.querySelector("img"), { scale: 0.7, autoAlpha: 0, duration: 0.4, ease: "back.out(1.8)" });
+    tl.from(fecho.querySelector(".kicker"), { y: 16, autoAlpha: 0, duration: 0.25 }, "-=0.15");
+    tl.from(fecho.querySelector("h2"), { scale: 0.86, autoAlpha: 0, duration: 0.45, ease: "back.out(1.7)" }, "-=0.1");
+    tl.from(fecho.querySelector(".ig"), { scale: 0.2, autoAlpha: 0, duration: 0.55, ease: "back.out(2)" }, "-=0.05");
+    tl.from(fecho.querySelector(".arroba"), { y: 36, autoAlpha: 0, duration: 0.4, ease: "power3.out" }, "-=0.28");
+    tl.to(fecho.querySelector(".ig-bloco"), {
+      scale: 1.08,
+      duration: 0.22,
+      ease: "power2.out",
+      yoyo: true,
+      repeat: 1,
+      transformOrigin: "50% 40%",
+    });
+    faíscas.forEach(function (ponto, indice) {
+      var angulo = (indice / faíscas.length) * Math.PI * 2;
+      tl.fromTo(
+        ponto,
+        { x: 0, y: 0, scale: 0.4, autoAlpha: 1 },
+        {
+          x: Math.cos(angulo) * 420,
+          y: Math.sin(angulo) * 280,
+          scale: 1,
+          autoAlpha: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          immediateRender: false,
+        },
+        "-=0.85"
+      );
+    });
     return tl.then();
   };
 
