@@ -27,3 +27,7 @@ npm-debug.log*
 
 # Cursor
 .cursor/
+
+# Perfil do Chrome usado só na gravação
+.chrome-produto/
+.chrome-reels/
