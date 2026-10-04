@@ -103,16 +103,7 @@
     tl.from(fecho.querySelector("img"), { scale: 0.7, autoAlpha: 0, duration: 0.4, ease: "back.out(1.8)" });
     tl.from(fecho.querySelector(".kicker"), { y: 16, autoAlpha: 0, duration: 0.25 }, "-=0.15");
     tl.from(fecho.querySelector("h2"), { scale: 0.86, autoAlpha: 0, duration: 0.45, ease: "back.out(1.7)" }, "-=0.1");
-    tl.from(fecho.querySelector(".ig-chama"), { y: 16, autoAlpha: 0, duration: 0.28 }, "-=0.05");
-    tl.from(fecho.querySelector(".perfil"), { y: 40, scale: 0.92, autoAlpha: 0, duration: 0.55, ease: "back.out(1.7)" }, "-=0.12");
-    tl.to(fecho.querySelector(".perfil"), {
-      scale: 1.05,
-      duration: 0.22,
-      ease: "power2.out",
-      yoyo: true,
-      repeat: 1,
-      transformOrigin: "50% 50%",
-    });
+    tl.from(fecho.querySelector(".perfil"), { y: 18, autoAlpha: 0, duration: 0.45, ease: "power2.out" }, "-=0.08");
     faíscas.forEach(function (ponto, indice) {
       var angulo = (indice / faíscas.length) * Math.PI * 2;
       tl.fromTo(

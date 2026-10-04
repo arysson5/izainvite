@@ -265,43 +265,30 @@ body[data-modo="gestao"] .vinheta {
 
 .ig-bloco {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  margin-top: 28px;
-}
-
-.ig-chama {
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-style: italic;
-  font-size: 40px;
-  letter-spacing: 0.04em;
-  color: #f6e7c8;
+  justify-content: center;
+  margin-top: 36px;
 }
 
 .perfil {
   display: flex;
   align-items: center;
-  gap: 28px;
-  padding: 18px 52px 18px 18px;
-  border-radius: 999px;
-  background: #fffdfb;
-  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.38);
+  gap: 22px;
+  background: none;
 }
 
 .ig {
-  width: 112px;
-  height: 112px;
+  width: 72px;
+  height: 72px;
   flex: 0 0 auto;
 }
 
 .arroba {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-style: normal;
-  font-size: 72px;
+  font-size: 64px;
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1;
   text-transform: none;
-  color: #1c1418;
+  color: #f8f1e6;
 }
