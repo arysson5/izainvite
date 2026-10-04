@@ -1,0 +1,254 @@
+@font-face {
+  font-family: "Cinzel";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/produto/cinzel-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/produto/cormorant-italic-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/produto/cormorant-latin.woff2") format("woff2");
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: #070406;
+  color: #f6efe8;
+  font-family: "Cormorant Garamond", Georgia, serif;
+}
+
+.filme {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  padding: 36px 56px 28px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background:
+    radial-gradient(ellipse at 78% 42%, rgba(196, 120, 140, 0.22), transparent 42%),
+    radial-gradient(ellipse at 18% 80%, rgba(212, 168, 84, 0.1), transparent 36%),
+    #070406;
+}
+
+.abertura-tela {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background:
+    radial-gradient(ellipse at center, rgba(196, 120, 140, 0.28), transparent 46%),
+    #070406;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+.abertura-tela img {
+  width: 168px;
+  height: auto;
+  filter: drop-shadow(0 18px 30px rgba(212, 168, 83, 0.35));
+}
+
+.abertura-tela p {
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 54px;
+  letter-spacing: 0.18em;
+  color: #f3d48a;
+}
+
+body[data-passo="abertura"] .abertura-tela {
+  opacity: 1;
+}
+
+.topo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 58px;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+body[data-passo="abertura"] .topo,
+body[data-passo="abertura"] .palco,
+body[data-passo="abertura"] .elemento {
+  opacity: 0;
+}
+
+.topo img {
+  width: 42px;
+  height: auto;
+}
+
+.topo span {
+  font-family: "Cinzel", Georgia, serif;
+  letter-spacing: 0.22em;
+  font-size: 18px;
+  color: #f3d48a;
+}
+
+.palco {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(520px, 1fr) 470px;
+  gap: 42px;
+  align-items: center;
+  transition: grid-template-columns 0.55s ease;
+}
+
+body[data-passo="gestao"] .palco {
+  grid-template-columns: 460px 1fr;
+}
+
+.editor {
+  height: auto;
+  align-self: center;
+  border: 1px solid rgba(243, 212, 138, 0.28);
+  border-radius: 18px;
+  background: rgba(12, 8, 10, 0.88);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-barra {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 52px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(243, 212, 138, 0.16);
+}
+
+.dots {
+  display: flex;
+  gap: 7px;
+}
+
+.dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: block;
+  background: rgba(243, 212, 138, 0.45);
+}
+
+.arquivo {
+  font-family: "JetBrains Mono", "Cascadia Mono", ui-monospace, monospace;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: #efc9d2;
+}
+
+.codigo {
+  margin: 0;
+  padding: 28px 26px 32px;
+  overflow: hidden;
+  font-family: "JetBrains Mono", "Cascadia Mono", ui-monospace, monospace;
+  font-size: 18px;
+  line-height: 1.55;
+  color: #f7f1ea;
+  white-space: pre;
+}
+
+.codigo .ln {
+  display: block;
+  padding: 0 8px;
+  border-left: 2px solid transparent;
+}
+
+.codigo .on {
+  background: rgba(243, 212, 138, 0.08);
+  border-left-color: #f3d48a;
+}
+
+.tok-tag { color: #f0b4c4; }
+.tok-attr { color: #f3d48a; }
+.tok-str { color: #f6e7c2; }
+.tok-key { color: #efc9d2; }
+.tok-fn { color: #f3d48a; }
+.tok-com { color: rgba(239, 201, 210, 0.55); font-style: italic; }
+
+.aparelho {
+  width: 430px;
+  height: 860px;
+  justify-self: center;
+  padding: 14px;
+  border-radius: 42px;
+  background: linear-gradient(180deg, #2a2226, #120e11);
+  border: 1px solid rgba(243, 212, 138, 0.4);
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: width 0.55s ease, height 0.55s ease, border-radius 0.55s ease;
+}
+
+body[data-passo="gestao"] .aparelho {
+  width: 1180px;
+  height: 760px;
+  border-radius: 22px;
+  justify-self: stretch;
+}
+
+.tela {
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+  background: #000;
+}
+
+body[data-passo="gestao"] .tela {
+  border-radius: 12px;
+}
+
+.tela iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+
+.elemento {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cinzel", Georgia, serif;
+  font-size: 22px;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  text-transform: uppercase;
+  color: #f3d48a;
+  transition: opacity 0.25s ease;
+}
+
+.elemento.is-trocando {
+  opacity: 0;
+}
