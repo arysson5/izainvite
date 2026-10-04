@@ -1,6 +1,6 @@
 import { spawn, execSync } from "node:child_process";
 import { createServer } from "node:http";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rename, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import puppeteer from "puppeteer-core";
@@ -210,8 +210,15 @@ async function ampliarGestao(frame) {
 async function rolar(frame, seletor) {
   await frame.evaluate((sel) => {
     const el = document.querySelector(sel);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (el) el.scrollIntoView({ behavior: "auto", block: "center" });
   }, seletor);
+}
+
+async function chaveDeExemplo(frame) {
+  await frame.evaluate(() => {
+    const chave = document.querySelector("#pixKey");
+    if (chave) chave.textContent = "sua chave aqui";
+  });
 }
 
 liberarTela();
@@ -379,7 +386,8 @@ try {
     titulo: "Você está convidado.",
     sub: "Escrita para emocionar.",
   });
-  await sleep(2200);
+  await sleep(1000);
+  await chaveDeExemplo(convite);
 
   await rolar(convite, "#conviteSectionData");
   await dizer(page, {
@@ -388,7 +396,7 @@ try {
     titulo: "09 de maio.",
     sub: "Às 19h30.",
   });
-  await sleep(1800);
+  await sleep(850);
 
   log("mapa");
   await rolar(convite, "#conviteSectionLocal");
@@ -398,7 +406,7 @@ try {
     titulo: "No mapa.",
     sub: "Um toque abre o caminho.",
   });
-  await sleep(2000);
+  await sleep(1000);
 
   await rolar(convite, "#conviteSectionTraje");
   await dizer(page, {
@@ -407,7 +415,7 @@ try {
     titulo: "Esporte fino.",
     sub: "Já escrito no convite.",
   });
-  await sleep(1600);
+  await sleep(800);
 
   await rolar(convite, "#conviteSectionCountdown");
   await dizer(page, {
@@ -416,11 +424,10 @@ try {
     titulo: "Os dias passando.",
     sub: "Até a festa.",
   });
-  await sleep(1800);
+  await sleep(800);
 
   log("presentes");
   await rolar(convite, "#btnSugestaoPresente");
-  await sleep(400);
   await convite.click("#btnSugestaoPresente");
   await dizer(page, {
     lugar: "cima",
@@ -428,10 +435,14 @@ try {
     titulo: "A lista dela.",
     sub: "Cada detalhe, no convite.",
   });
-  await sleep(2000);
+  await sleep(1000);
   await convite.click("#closeSugestoes");
-  await sleep(350);
-
+  await esperar(convite, () => {
+    const aberto = document.querySelector("#overlaySugestoes");
+    return aberto && !aberto.classList.contains("is-open");
+  }, 4000, "fechar presentes");
+  await rolar(convite, "#btnPix");
+  await chaveDeExemplo(convite);
   await dizer(page, {
     lugar: "cima",
     kicker: "Pix",
@@ -439,9 +450,15 @@ try {
     sub: "Sem sair do convite.",
   });
   await convite.click("#btnPix");
-  await sleep(2300);
+  await esperar(convite, () => {
+    const aberto = document.querySelector("#overlayPix");
+    const chave = document.querySelector("#pixKey");
+    return aberto && aberto.classList.contains("is-open") && chave && chave.textContent.includes("sua chave");
+  }, 4000, "pix");
+  await chaveDeExemplo(convite);
+  await sleep(1200);
   await convite.click("#closePix");
-  await sleep(300);
+  await sleep(160);
 
   log("presenca");
   await rolar(convite, "#btnConfirmarPresenca");
@@ -466,9 +483,9 @@ try {
     return campo && !campo.hidden;
   }, 8000, "acompanhante");
   await convite.click("#confirmarNome", { clickCount: 3 });
-  await convite.type("#confirmarNome", "Helena Duarte", { delay: 55 });
-  await convite.type("#confirmarNomeAcompanhante", "Theo Duarte", { delay: 48 });
-  await sleep(1100);
+  await convite.type("#confirmarNome", "Helena Duarte", { delay: 32 });
+  await convite.type("#confirmarNomeAcompanhante", "Theo Duarte", { delay: 28 });
+  await sleep(700);
   await convite.click("#btnEnviarConfirmacao");
   await esperar(convite, () => {
     const msg = document.querySelector("#confirmarMensagem");
@@ -493,12 +510,12 @@ try {
     titulo: "Cada resposta.",
     sub: "Quem vem. Quem leva alguém.",
   });
-  await sleep(2200);
+  await sleep(1400);
   await gestao.evaluate(() => {
     const bloco = document.querySelector("#cardTabela");
-    if (bloco) bloco.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (bloco) bloco.scrollIntoView({ behavior: "auto", block: "start" });
   });
-  await sleep(2400);
+  await sleep(1400);
 
   log("fecho");
   await page.evaluate(() => window.fechar());
@@ -515,4 +532,43 @@ try {
 if (!ffmpegErro.includes("video:")) {
   process.stderr.write(ffmpegErro.slice(-1200) + "\n");
 }
+
+const musica = path.join(root, "assets/music/reels-comercial.mp3");
+const comAudio = outPath.replace(/\.mp4$/, ".com-audio.mp4");
+let segundos = NaN;
+for (let tentativa = 0; tentativa < 5 && !Number.isFinite(segundos); tentativa += 1) {
+  await sleep(200);
+  const bruto = execSync(
+    `ffprobe -v error -show_entries format=duration -of csv=p=0 "${outPath}"`,
+    { encoding: "utf8" },
+  ).trim();
+  segundos = Number(bruto);
+}
+const saidaFade = Math.max(0, segundos - 2.6).toFixed(2);
+await new Promise((resolve, reject) => {
+  const mux = spawn("ffmpeg", [
+    "-y",
+    "-i", outPath,
+    "-i", musica,
+    "-filter_complex", `[1:a]afade=t=in:st=0:d=1.2,afade=t=out:st=${saidaFade}:d=2.4,volume=0.9[a]`,
+    "-map", "0:v:0",
+    "-map", "[a]",
+    "-c:v", "copy",
+    "-c:a", "aac",
+    "-b:a", "192k",
+    "-shortest",
+    "-movflags", "+faststart",
+    comAudio,
+  ], { stdio: ["ignore", "ignore", "pipe"] });
+  let erro = "";
+  mux.stderr.on("data", (chunk) => {
+    erro += chunk.toString();
+  });
+  mux.on("close", (code) => {
+    if (code === 0) resolve();
+    else reject(new Error(erro.slice(-800)));
+  });
+});
+await unlink(outPath);
+await rename(comAudio, outPath);
 process.stdout.write(`video ${outPath}\n`);
